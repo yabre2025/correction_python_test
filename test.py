@@ -20,13 +20,14 @@ class CourseManager:
             json.dump(self.liste_courses, f, indent=4, ensure_ascii=False)
 
     def afficher(self):
-        if not self.liste_courses["articles"]:
+        articles = selft.liste_courses.get("articles", [])
+        if not articles: 
             print("La liste est vide.")
-            return
-        print("\n--- LISTE DE COURSES ---")
-        for article in self.liste_courses["articles"]:
-            statut = "✔" if article["achete"] else "◻"
-            print(f"{statut} {article['nom']} (x{article['quantite']}) [{article['categorie']}]")
+        else:
+            print("\n--- LISTE DE COURSES ---")
+        for i, article in enumerate(articles, 1):
+            statut = "✔" if article.get["achete"] else "◻"
+            print(f"{i}.{statut} {article['nom']} ({article['categorie']}]")
 
     def ajouter(self, nom, quantite=1, categorie="Divers"):
         for article in self.liste_courses["articles"]:
@@ -71,15 +72,18 @@ class CourseManager:
                 return
         print("Erreur : article introuvable.")
 
-    def afficher_par_categorie(self):
-        categories = {}
+    def afficher_par_categorie(self, categories):
+        articles = self.liste-courses.get("articles", [])
+        trouve = False
+        print(f"\n--- Articles dans la categorie : {categorie} ---")
         for article in self.liste_courses["articles"]:
-            categories.setdefault(article["categorie"], []).append(article)
-        print("\n--- PAR CATÉGORIE ---")
-        for cat, articles in categories.items():
-            print(f"{cat} :")
-            for a in articles:
-                print(f"  - {a['nom']} (x{a['quantite']})")
+            if
+            article['categories'].lower() ==categorie.lower():
+            statut= ["✔"] if article.get["achete"] else ["◻"] 
+             print(f"- {statut} {article['nom']}")
+            trouve = True
+            if not trouve:
+                print(f"Acun  article trouvé dans cette catégorie.")
 
     def rechercher(self, mot_cle):
         resultats = [a for a in self.liste_courses["articles"] if mot_cle.lower() in a["nom"].lower()]
@@ -134,7 +138,7 @@ def menu():
         elif choix == "5":
             manager.marquer_achete(input("Nom de l'article : "))
         elif choix == "6":
-            manager.afficher_par_categorie()
+           cat = input("Entrez par categorie à afficher : ")
         elif choix == "7":
             manager.rechercher(input("Mot-clé : "))
         elif choix == "8":
